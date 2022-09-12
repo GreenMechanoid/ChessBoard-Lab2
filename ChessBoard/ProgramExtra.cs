@@ -14,7 +14,7 @@ namespace ChessBoard
             int OnGoingThings = 0; // using int as a navigator in the 'switch case' for simplicity, 0 is default
 
             string WhiteSquare = "◻︎"; // ◻︎  \u25A1 
-            string BlackSquare = "◼︎"; // ◼︎  \u25A0 ◼︎
+            string BlackSquare = "◼︎"; // ◼︎  \u25A0
             string CustomWhite = "";
             string CustomBlack = "";
             string[,] Board;
@@ -53,12 +53,12 @@ namespace ChessBoard
 
                     Board = new string[ConvertedChessNumber, ConvertedChessNumber];
 
-                    if (OptionKey == ConsoleKey.Y)
+                    if (OptionKey == ConsoleKey.Y) // checks to see if the user said yes to a question
                     {
                         SelectedCustom = true;
                     }
 
-                    if (ConvertedChessNumber < 26)
+                    if (ConvertedChessNumber < 27) // makes certain that the user can't go into Board row letters saing 'AA' and so on, only 'A->Z'
                     {
                         do
                         {
@@ -96,7 +96,7 @@ namespace ChessBoard
 
                     else
                     {
-                        goto case 2; // if no, then use the default from the code
+                        goto case 2; // if no on both, then use the default from the code
                     }
 
                 case 1: // custom creation on the symbols inputed by the user
@@ -109,7 +109,7 @@ namespace ChessBoard
 
             }
 
-            for (int i = 0; i < ConvertedChessNumber; i++)
+            for (int i = 0; i < ConvertedChessNumber; i++) // prints the entire board from the array
             {
                 for (int j = 0; j < ConvertedChessNumber; j++)
                 {
@@ -135,7 +135,7 @@ namespace ChessBoard
                 for (int j = 0; j < numberOfSquares; j++) //handles the rows of squares == user's input of how meny squares is printed
                 {
                     
-                    if ((i + j) % 2 == 0)
+                    if ((i + j) % 2 == 0)  // checks to see if the number is even or odd, and asigns differing squares depending on it
                     {
                         BoardsArray[i,j] = squareWhite;
                     }
@@ -150,17 +150,18 @@ namespace ChessBoard
             if (pieceSelected == true)
             {
                 if (piecePlacement.Length == 2) { // checks if it's something like "E7"
-                    RowIndex = Array.IndexOf(LettersArray, piecePlacement.Substring(0, 1).ToUpper());
+                    RowIndex = Array.IndexOf(LettersArray, piecePlacement.Substring(0, 1).ToUpper()); // get's the position of the letter in the letters array and captures the index of it
 
-                    ColumnIndex = Convert.ToInt32(piecePlacement.Substring(1, 1));
-                    BoardsArray.SetValue("♜", ColumnIndex -1, RowIndex); // Column needs to be shortened by 1 due to For loop increment is 1 higher for it
+                    ColumnIndex = Convert.ToInt32(piecePlacement.Substring(1, 1)); //get's the numbers entered by the user
+                    BoardsArray.SetValue("♜   ", ColumnIndex -1, RowIndex); // Column needs to be shortened by 1 due to For loop increment is 1 higher for it and replaces the square with symbol
                 }
                 if (piecePlacement.Length == 3) // checks if it's something like "E20"
                 {
-                    RowIndex = Array.IndexOf(LettersArray, piecePlacement.Substring(0, 1));
+                    RowIndex = Array.IndexOf(LettersArray, piecePlacement.Substring(0, 1).ToUpper());
 
-                    ColumnIndex = Convert.ToInt32(piecePlacement.Substring(1, 2));
-                    BoardsArray.SetValue("♜", ColumnIndex - 1, RowIndex);
+                    ColumnIndex = Convert.ToInt32(piecePlacement.Substring(1, 2)) -1;
+                    BoardsArray.SetValue("♜   ", ColumnIndex - 1, RowIndex); //"\u2654" using a chesspiece
+                    //ended up using three (3) whitespaces to fix the printing error, as it shifts the entire print to the side due to non uniform printing to console
                 }
             }
             return BoardsArray;
